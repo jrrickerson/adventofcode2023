@@ -149,3 +149,51 @@ def test_part_1_input_data():
 
     result = solve.part_1(input_data)
     assert result == 8
+
+
+def test_calc_game_power_no_draws():
+    game = utils.Game(id="123")
+    power = utils.calc_game_power(game)
+
+    assert power == 1
+
+
+def test_calc_game_power_single_draw():
+    game = utils.Game(
+        id="123",
+        draws=[
+            utils.Draw(red=2, green=3, blue=1),
+        ]
+    )
+    power = utils.calc_game_power(game)
+
+    assert power == 2 * 3 * 1
+
+
+def test_calc_game_power_multi_draws():
+    game = utils.Game(
+        id="123",
+        draws=[
+            utils.Draw(red=2, green=3, blue=1),
+            utils.Draw(red=3, green=1, blue=7),
+            utils.Draw(red=2, green=3, blue=3),
+            utils.Draw(red=5, green=4, blue=4),
+            utils.Draw(red=1, green=1, blue=2),
+        ]
+    )
+    power = utils.calc_game_power(game)
+
+    assert power == 5 * 4 * 7
+
+
+def test_part_2_input_data():
+    input_data = [
+        "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
+        "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue",
+        "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red",
+        "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red",
+        "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green",
+    ]
+
+    result = solve.part_2(input_data)
+    assert result == 2286

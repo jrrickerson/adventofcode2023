@@ -45,3 +45,11 @@ def validate_game(game, max_red=0, max_green=0, max_blue=0):
     else:
         valid = True
     return valid
+
+
+def calc_game_power(game):
+    required_red = max([d.red for d in game.draws]) if game.draws else 1
+    required_green = max([d.green for d in game.draws]) if game.draws else 1
+    required_blue = max([d.blue for d in game.draws]) if game.draws else 1
+
+    return required_red * required_green * required_blue

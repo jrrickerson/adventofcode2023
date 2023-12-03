@@ -22,7 +22,11 @@ def part_1(input_data):
 
 
 def part_2(input_data):
-    pass
+    games = [utils.parse_game(line) for line in input_data]
+    powers = [utils.calc_game_power(g) for g in games]
+
+    result = sum(powers)
+    return result
 
 
 def main(input_file):  # pragma: no cover
