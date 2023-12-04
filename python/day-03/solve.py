@@ -15,7 +15,10 @@ def part_1(input_data):
 
 
 def part_2(input_data):
-    pass
+    nodes = utils.parse_schematic(input_data)
+    gear_ratios = utils.find_gear_ratios(nodes)
+
+    return sum(gear_ratios)
 
 
 def main(input_file):  # pragma: no cover

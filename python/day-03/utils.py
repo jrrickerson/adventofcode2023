@@ -25,17 +25,24 @@ def surrounding_cells(x, y):
     ]
 
 
+def _adjacent_to_cell(nodes, x, y):
+    digit_cells = set()
+    # Check surrounding cells
+    for coords in surrounding_cells(x, y):
+        # Did we find a digit?
+        cell_value = nodes.get(coords)
+        if cell_value and cell_value in string.digits:
+            digit_cells.add(coords)
+    return digit_cells
+
+
 def find_adjacent_digits(nodes):
     digit_cells = set()
     for key, value in nodes.items():
         # If it's a symbol
         if value not in string.digits:
-            # Check surrounding cells
-            for coords in surrounding_cells(*key):
-                # Did we find a digit?
-                cell_value = nodes.get(coords)
-                if cell_value and cell_value in string.digits:
-                    digit_cells.add(coords)
+            digits_adjacent = _adjacent_to_cell(nodes, *key)
+            digit_cells.update(digits_adjacent)
     return digit_cells
             
 
@@ -70,3 +77,15 @@ def collect_numbers(nodes, coords):
             x += 1
         numbers.append(int(''.join(digits)))
     return numbers
+
+
+def find_gear_ratios(nodes):
+    ratios = []
+    for key, value in nodes.items():
+        if value != "*":
+            continue
+        digit_neighbors = _adjacent_to_cell(nodes, *key)
+        part_numbers = collect_numbers(nodes, digit_neighbors)
+        if len(part_numbers) == 2:
+            ratios.append(part_numbers[0] * part_numbers[1])
+    return ratios

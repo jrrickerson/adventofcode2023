@@ -199,6 +199,22 @@ def test_collect_numbers_no_duplication():
     assert 123 in numbers
 
 
+def test_collect_numbers_symbol_prefix():
+    lines = [
+        "..123",
+        ".....",
+        "#45..",
+    ]
+    nodes = utils.parse_schematic(lines)
+
+    cells = {(2, 0), (2, 2)}
+    numbers = utils.collect_numbers(nodes, cells)
+
+    assert len(numbers) == 2
+    assert 123 in numbers
+    assert 45 in numbers
+
+
 def test_collect_numbers_multi_numbers():
     lines = [
         "..123",
@@ -231,3 +247,72 @@ def test_part_1_input_data():
     result = solve.part_1(input_data)
 
     assert result == 4361
+
+
+def test_find_gear_ratios_no_symbols():
+    lines = [
+        "..123",
+        ".....",
+        ".45..",
+    ]
+    nodes = utils.parse_schematic(lines)
+    gear_ratios = utils.find_gear_ratios(nodes)
+
+    assert gear_ratios == []
+
+
+def test_find_gear_ratios_no_gears():
+    lines = [
+        "..123",
+        "....*",
+        ".45..",
+    ]
+    nodes = utils.parse_schematic(lines)
+    gear_ratios = utils.find_gear_ratios(nodes)
+
+    assert gear_ratios == []
+
+
+def test_find_gear_ratios_one_gear():
+    lines = [
+        "....4",
+        "....*",
+        ".45.5",
+    ]
+    nodes = utils.parse_schematic(lines)
+    gear_ratios = utils.find_gear_ratios(nodes)
+
+    assert len(gear_ratios) == 1
+    assert 20 in gear_ratios
+
+
+def test_find_gear_ratios_multi_gears():
+    lines = [
+        "8*..4",
+        "10..*",
+        ".45.5",
+    ]
+    nodes = utils.parse_schematic(lines)
+    gear_ratios = utils.find_gear_ratios(nodes)
+
+    assert len(gear_ratios) == 2
+    assert 20 in gear_ratios
+    assert 80 in gear_ratios
+
+
+def test_part_2_input_data():
+    input_data = [
+        "467..114..",
+        "...*......",
+        "..35..633.",
+        "......#...",
+        "617*......",
+        ".....+.58.",
+        "..592.....",
+        "......755.",
+        "...$.*....",
+        ".664.598..",
+    ]
+    result = solve.part_2(input_data)
+
+    assert result == 467835
