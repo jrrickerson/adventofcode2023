@@ -1,5 +1,7 @@
 import utils
 
+from collections import defaultdict
+
 
 def get_input_data(filename):  # pragma: no cover
     return [line.strip() for line in open(filename) if line.strip()]
@@ -13,7 +15,12 @@ def part_1(input_data):
 
 
 def part_2(input_data):
-    pass
+    cards = [utils.parse_card(line) for line in input_data]
+    card_counts = {card.id: 1 for card in cards}
+    for card in cards:
+        card_counts = utils.process_matches(card_counts, card)
+
+    return sum(card_counts.values())
 
 
 def main(input_file):  # pragma: no cover
